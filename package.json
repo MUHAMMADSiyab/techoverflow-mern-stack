@@ -1,0 +1,26 @@
+{
+  "name": "techoverflow",
+  "version": "1.0.0",
+  "description": "Question Answer Site for Programmers & Developers",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon index"
+  },
+  "keywords": [],
+  "author": "MUHAMMAD Siyab",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "config": "^3.2.2",
+    "express": "^4.17.1",
+    "express-validator": "^6.1.1",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.5",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "nodemon": "^1.19.1"
+  }
+}
