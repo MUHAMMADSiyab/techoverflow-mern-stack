@@ -1,9 +1,17 @@
 const express = require("express");
-const app = express();
 const connectDB = require("./config/db");
+
+const app = express();
 
 // Connect DB
 connectDB();
+
+// Allow JSON content-type
+app.use(express.json({ extended: false }));
+
+// Routes
+app.use("/api/auth", require("./routes/api/auth"));
+app.use("/api/users", require("./routes/api/users"));
 
 PORT = 5000 || process.env.PORT;
 
