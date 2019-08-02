@@ -20,7 +20,7 @@ router.get("/", auth, async (req, res) => {
 
     res.json(user);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
     res.status(500).send("Server Error");
   }
 });
@@ -81,10 +81,8 @@ router.post(
           res.json(token);
         }
       );
-
-      res.json(user);
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       res.status(500).send("Server Error");
     }
   }
