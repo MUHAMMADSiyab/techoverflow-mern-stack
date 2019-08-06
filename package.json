@@ -4,7 +4,8 @@
   "description": "Question Answer Site for Programmers & Developers",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon index"
+    "server": "nodemon index",
+    "dev": "concurrently \"npm run server\" \"cd client && npm start\""
   },
   "keywords": [],
   "author": "MUHAMMAD Siyab",

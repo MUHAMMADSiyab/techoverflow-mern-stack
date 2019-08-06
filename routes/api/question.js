@@ -7,6 +7,7 @@ const auth = require("../../middleware/auth");
 // Models
 const User = require("../../models/User");
 const Question = require("../../models/Question");
+const Answer = require("../../models/Answer");
 
 /**
  * @route   /api/question
@@ -91,14 +92,14 @@ router.put(
     const { title, body, tags } = req.body;
 
     try {
-      let questionData = {
+      const questionData = {
         title: title,
         body: body,
         tags: tags
       };
 
-      let question = await Question.findOneAndUpdate(
-        { _id: req.params.question_id },
+      const question = await Question.findOneAndUpdate(
+        { user: req.user.id, _id: req.params.question_id },
         { $set: questionData },
         { new: true }
       );
@@ -280,7 +281,7 @@ router.post(
  * @desc    Update a comment
  */
 router.put(
-  "/:question_id/comment/:comment_id",
+  "/comment/:comment_id",
   [
     auth,
     [
@@ -297,7 +298,10 @@ router.put(
 
     try {
       let question = await Question.findOneAndUpdate(
-        { "comments._id": req.params.comment_id },
+        {
+          "comments._id": req.params.comment_id,
+          "comments.user": req.user.id
+        },
         { $set: { "comments.$.text": req.body.text } },
         { new: true }
       );
@@ -317,25 +321,40 @@ router.put(
  * @type    PUT
  * @desc    Delete a comment
  */
-router.delete("/:question_id/comment/:comment_id", auth, async (req, res) => {
+router.delete("/comment/:comment_id", auth, async (req, res) => {
   try {
-    let question = await Question.findById(req.params.question_id);
-
-    // Check if the user deleting the comment is the one who created the comment
-    if (req.user.id === question.comments.user) {
-      return res.send("Authorized User");
-    }
-
-    const index = question.comments
-      .map(comment => comment.id)
-      .indexOf(req.params.comment_id);
-
-    // Remove
-    question.comments.splice(index, 1);
-
-    await question.save();
+    const question = await Question.findOneAndUpdate(
+      { _id: req.params.question_id },
+      {
+        $pull: { comments: { _id: req.params.comment_id, user: req.user.id } }
+      },
+      { new: true }
+    );
 
     res.json(question);
+  } catch (err) {
+    console.log(err.message);
+    if (err.kind == "ObjectId")
+      return res.status(404).json({ msg: "No question found" });
+    res.status(500).send("Server Error");
+  }
+});
+
+/**
+ * @route   /api/question/:question_id
+ * @type    PUT
+ * @desc    Delete a question
+ */
+router.delete("/:question_id", auth, async (req, res) => {
+  try {
+    await Question.findOneAndRemove({
+      _id: req.params.question_id,
+      user: req.user.id
+    });
+
+    await Answer.findOneAndRemove({ question_id: req.params.question_id });
+
+    res.send("Question deleted");
   } catch (err) {
     console.log(err.message);
     if (err.kind == "ObjectId")

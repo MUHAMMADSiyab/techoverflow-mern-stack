@@ -52,6 +52,7 @@ router.post(
     if (company) profileFields.company = company;
     if (status) profileFields.status = status;
     if (location) profileFields.location = location;
+    if (bio) profileFields.bio = bio;
     if (skills)
       profileFields.skills = skills.split(",").map(skill => skill.trim());
     if (website) profileFields.website = website;
@@ -260,17 +261,13 @@ router.put(
  */
 router.delete("/experience/:exp_id", auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user: req.user.id });
-
-    // Get the experience index
-    const expIndex = profile.experience
-      .map(exp => exp._id)
-      .indexOf(req.params.exp_id);
-
-    // Remove
-    profile.experience.splice(expIndex, 1);
-
-    await profile.save();
+    let profile = await Profile.findOneAndUpdate(
+      { user: req.user.id },
+      {
+        $pull: { experience: { _id: req.params.exp_id } }
+      },
+      { new: true }
+    );
 
     res.json(profile);
   } catch (err) {
@@ -410,17 +407,13 @@ router.put(
  */
 router.delete("/education/:edu_id", auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user: req.user.id });
-
-    // Get the education index
-    const eduIndex = profile.education
-      .map(exp => exp._id)
-      .indexOf(req.params.edu_id);
-
-    // Remove
-    profile.education.splice(eduIndex, 1);
-
-    await profile.save();
+    const profile = await Profile.findOneAndUpdate(
+      { user: req.user.id },
+      {
+        $pull: { education: { _id: req.params.edu_id } }
+      },
+      { new: true }
+    );
 
     res.json(profile);
   } catch (err) {
