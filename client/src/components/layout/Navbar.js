@@ -21,32 +21,35 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
     </Fragment>
   );
 
-  const UserLinks = () => (
-    <Fragment>
-      <li className="nav-item">
-        <Link className="nav-link" to="#/">
-          {user !== null && (
-            <Fragment>
+  const UserLinks = () =>
+    user !== null && (
+      <Fragment>
+        <li className="nav-item">
+          <Link className="nav-link" to={`/users/${user._id}`}>
+            {user !== null && (
               <img src={user.avatar} alt="" className="profile-icon" />
-              <span>{user.name}</span>
-            </Fragment>
-          )}
-        </Link>
-      </li>
-      <li className="nav-item">
-        <a
-          className="nav-link"
-          href="#!"
-          onClick={e => {
-            e.preventDefault();
-            logout();
-          }}
-        >
-          Logout
-        </a>
-      </li>
-    </Fragment>
-  );
+            )}
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to={`/users/${user._id}`}>
+            {user !== null && <span>{user.name}</span>}
+          </Link>
+        </li>
+        <li className="nav-item">
+          <a
+            className="nav-link"
+            href="#!"
+            onClick={e => {
+              e.preventDefault();
+              logout();
+            }}
+          >
+            Logout
+          </a>
+        </li>
+      </Fragment>
+    );
 
   return (
     <nav className="navbar navbar-expand-md navbar-light">
@@ -71,9 +74,9 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/">
+            <Link className="nav-link" to="/users">
               Users
-            </a>
+            </Link>
           </li>
         </ul>
         <ul className="navbar-nav ml-auto">

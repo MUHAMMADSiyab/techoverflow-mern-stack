@@ -92,25 +92,9 @@ router.post(
 );
 
 /**
- * @route   /api/profile
- * @type    GET
- * @desc    Get all profiles
- */
-router.get("/", async (req, res) => {
-  try {
-    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
-
-    res.json(profiles);
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server Error");
-  }
-});
-
-/**
  * @route   /api/profile/:user_id
  * @type    GET
- * @desc    Get profile by ID
+ * @desc    Get profile by user ID
  */
 router.get("/:user_id", async (req, res) => {
   try {
@@ -168,7 +152,10 @@ router.post(
     } = req.body;
 
     try {
-      const profile = await Profile.findOne({ user: req.user.id });
+      const profile = await Profile.findOne({ user: req.user.id }).populate(
+        "user",
+        ["name", "avatar"]
+      );
 
       const experience = {
         title,
@@ -242,9 +229,9 @@ router.put(
 
       const profile = await Profile.findOneAndUpdate(
         { user: req.user.id, "experience._id": req.params.exp_id },
-        { $set: { experience } },
+        { $set: { "experience.$": experience } },
         { new: true }
-      );
+      ).populate("user", ["name", "avatar"]);
 
       res.json(profile);
     } catch (err) {
@@ -267,7 +254,7 @@ router.delete("/experience/:exp_id", auth, async (req, res) => {
         $pull: { experience: { _id: req.params.exp_id } }
       },
       { new: true }
-    );
+    ).populate("user", ["name", "avatar"]);
 
     res.json(profile);
   } catch (err) {
@@ -314,7 +301,10 @@ router.post(
     } = req.body;
 
     try {
-      const profile = await Profile.findOne({ user: req.user.id });
+      const profile = await Profile.findOne({ user: req.user.id }).populate(
+        "user",
+        ["name", "avatar"]
+      );
 
       const education = {
         school,
@@ -388,9 +378,9 @@ router.put(
 
       const profile = await Profile.findOneAndUpdate(
         { user: req.user.id, "education._id": req.params.edu_id },
-        { $set: { education } },
+        { $set: { "education.$": education } },
         { new: true }
-      );
+      ).populate("user", ["name", "avatar"]);
 
       res.json(profile);
     } catch (err) {
@@ -413,7 +403,7 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
         $pull: { education: { _id: req.params.edu_id } }
       },
       { new: true }
-    );
+    ).populate("user", ["name", "avatar"]);
 
     res.json(profile);
   } catch (err) {

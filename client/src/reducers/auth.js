@@ -5,7 +5,8 @@ import {
   LOGIN_FAIL,
   USER_LOADED,
   LOGOUT,
-  AUTH_ERROR
+  AUTH_ERROR,
+  ACCOUNT_DELETED
 } from "../actions/constants";
 
 const initialState = {
@@ -38,6 +39,7 @@ export default (state = initialState, action) => {
       };
     case SIGNUP_FAIL:
     case LOGIN_FAIL:
+    case ACCOUNT_DELETED:
     case LOGOUT:
     case AUTH_ERROR:
       // Remove token from Local Storage

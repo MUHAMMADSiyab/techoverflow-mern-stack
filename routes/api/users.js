@@ -93,4 +93,68 @@ router.post(
   }
 );
 
+/**
+ * @route   /api/users
+ * @type    GET
+ * @desc    Get all users
+ */
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+
+    res.json(users);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+/**
+ * @route   /api/users/search
+ * @type    POST
+ * @desc    Search users
+ */
+router.post("/search", async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    // If search input is cleared, then show all the users
+    if (name === "" || name === undefined || name === null || !name) {
+      const users = await User.find().select("-password");
+      return res.json(users);
+    }
+
+    const username = new RegExp(name, "gi");
+    const users = await User.find({ name: { $regex: username } }).select(
+      "-password"
+    );
+
+    if (users.length === 0)
+      return res.status(404).json({ msg: "No user found" });
+
+    res.json(users);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+/**
+ * @route   /api/users/:id
+ * @type    GET
+ * @desc    Get user by ID
+ */
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) return res.status(404).json({ msg: "No user found" });
+
+    res.json(user);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
