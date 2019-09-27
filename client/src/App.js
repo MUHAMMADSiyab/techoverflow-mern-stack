@@ -11,11 +11,15 @@ import Login from "./components/auth/Login";
 import Users from "./components/profile/Users";
 import Profile from "./components/profile/Profile";
 import CreateProfile from "./components/profile/forms/CreateProfile";
+import Questions from "./components/question/Questions";
+import EditProfile from "./components/profile/forms/EditProfile";
+import AskQuestion from "./components/question/forms/AskQuestion";
+import EditQuestion from "./components/question/forms/EditQuestion";
+import Question from "./components/question/Question";
 // CSS
 import "./App.css";
 // Actions
 import { loadUser } from "./actions/auth";
-import EditProfile from "./components/profile/forms/EditProfile";
 
 const App = () => {
   useEffect(() => {
@@ -43,6 +47,22 @@ const App = () => {
               path="/edit-profile/:id"
               component={EditProfile}
             />
+            <Route
+              exact
+              path="/questions"
+              render={props => <Questions {...props} />}
+            />
+            <ProtectedRoute
+              exact
+              path="/ask-question"
+              component={AskQuestion}
+            />
+            <ProtectedRoute
+              exact
+              path="/edit-question/:id"
+              component={EditQuestion}
+            />
+            <Route exact path="/questions/:id" component={Question} />
           </Switch>
         </Fragment>
       </Router>

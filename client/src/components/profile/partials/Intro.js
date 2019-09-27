@@ -7,7 +7,7 @@ const Intro = ({ profile, auth }) => (
   <div className="col-sm-3">
     <div className="card no-shadow">
       <div className="card-body text-center">
-        <img src={profile.user.avatar} alt="" className="w-1" />
+        <img src={profile.user.avatar} alt="" className="w-1 profile-image" />
         <h5 className="mt-2">{profile.user.name}</h5>
         <p className="text-muted">{profile.status}</p>
         <p className="text-muted small">{profile.company && profile.company}</p>

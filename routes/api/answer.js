@@ -34,6 +34,7 @@ router.post(
       const user = await User.findById(req.user.id).select("-password");
 
       let answerData = {
+        question_id: req.params.question_id,
         body: req.body.body,
         name: user.name,
         avatar: user.avatar,
@@ -44,9 +45,18 @@ router.post(
 
       await answer.save();
 
+      // Update the answer count in question
+      const question = await Question.findById(req.params.question_id);
+
+      question.answers = question.answers + 1;
+
+      await question.save();
+
       res.json(answer);
     } catch (err) {
       console.log(err.message);
+      if (err.kind == "ObjectId")
+        return res.status(404).json({ msg: "No question found" });
       res.status(500).send("Server Error");
     }
   }

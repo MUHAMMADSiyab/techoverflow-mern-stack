@@ -75,6 +75,77 @@ body {
 .text-blue {
   color: var(--primary-color);
 }
+.main-container {
+  background: #fff;
+  padding: 50px;
+}
+.question a {
+  color: rgb(19, 89, 110);
+  text-decoration: none;
+}
+.question a:hover {
+  color: #0a384b;
+}
+.tags {
+  margin-bottom: 5px;
+}
+.tags .badge {
+  color: #143144;
+  background: #bddaee;
+  margin-left: 5px;
+  font-size: 95%;
+  padding: 6px;
+  font-weight: normal;
+  border-radius: 0;
+}
+.question .q-bottom > span {
+  margin-left: 20px;
+  margin-top: 20px;
+  position: relative;
+}
+.question .q-bottom .answers-count {
+  width: 10%;
+  float: right;
+  padding: 5px;
+  text-align: center;
+}
+.question .q-bottom .answers-count h4 {
+  text-align: center;
+  margin-bottom: 0 !important;
+}
+.question .q-bottom .answers-count span {
+  display: block;
+  font-size: 95%;
+  text-align: center;
+  font-weight: normal;
+}
+.profile-image {
+  border-radius: 50%;
+  padding: 5px;
+  object-fit: contain;
+  border: 2px solid var(--primary-color);
+}
+.hover-card {
+  width: 140px;
+  position: absolute;
+  bottom: 20px;
+  right: -100px;
+  text-align: center;
+}
+.hover-card span {
+  margin-top: 5px;
+  display: block;
+}
+.hover-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+.thick-border {
+  border: 1px solid var(--primary-color);
+}
+
 @keyframes fade {
   0% {
     opacity: 0;
@@ -195,6 +266,17 @@ body {
 .add-container textarea:focus {
   border: 1px solid var(--primary-color);
 }
+.react-tagsinput--focused {
+  border: 1px solid var(--primary-color);
+}
+.react-tagsinput-tag {
+  background-color: var(--primary-light);
+  color: #fff;
+  border: 0;
+}
+.text-warning {
+  color: rgb(233, 164, 36) !important;
+}
 
 /* Navbar  */
 .navbar {
@@ -210,6 +292,7 @@ body {
 }
 .navbar .navbar-nav .nav-item .nav-link {
   font-size: 90%;
+  font-weight: 500;
 }
 .navbar .navbar-nav .nav-item .nav-link:hover {
   color: #2475b0;
@@ -253,6 +336,11 @@ label {
   -moz-box-shadow: none;
   -ms-box-shadow: none;
   -o-box-shadow: none;
+}
+
+/* Question */
+.ask-question textarea:focus {
+  border: 1px solid var(--primary-color);
 }
 
 /* Mobile */

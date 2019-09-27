@@ -69,9 +69,9 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
       <div className="collapse navbar-collapse" id="collapsibleNavbar">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link" href="/">
+            <Link className="nav-link" to="/questions">
               Questions
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/users">

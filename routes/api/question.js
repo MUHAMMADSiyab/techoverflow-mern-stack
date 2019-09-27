@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
+const mongoose = require("mongoose");
 
 // Middleware
 const auth = require("../../middleware/auth");
@@ -44,7 +45,7 @@ router.post(
       let questionData = {
         title: title,
         body: body,
-        tags: tags,
+        tags,
         name: user.name,
         avatar: user.avatar,
         user: user.id
@@ -107,6 +108,8 @@ router.put(
       res.json(question);
     } catch (err) {
       console.log(err.message);
+      if (err.kind == "ObjectId")
+        return res.status(404).json({ msg: "No question found" });
       res.status(500).send("Server Error");
     }
   }
@@ -119,7 +122,7 @@ router.put(
  */
 router.get("/", async (req, res) => {
   try {
-    const questions = await Question.find();
+    const questions = await Question.find().sort("-date");
     res.json(questions);
   } catch (err) {
     console.log(err.message);

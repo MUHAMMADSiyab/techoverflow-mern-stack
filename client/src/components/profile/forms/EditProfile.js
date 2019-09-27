@@ -38,19 +38,19 @@ const EditProfile = ({
         profile !== null && profile.skills ? profile.skills.toString() : "",
       bio: profile !== null && profile.bio ? profile.bio : "",
       facebook:
-        profile !== null && profile.social.facebook
+        profile !== null && profile.social && profile.social.facebook
           ? profile.social.facebook
           : "",
       twitter:
-        profile !== null && profile.social.twitter
+        profile !== null && profile.social && profile.social.twitter
           ? profile.social.twitter
           : "",
       linkedin:
-        profile !== null && profile.social.linkedin
+        profile !== null && profile.social && profile.social.linkedin
           ? profile.social.linkedin
           : ""
     });
-  }, [getProfileById, loading, params.id]);
+  }, [getProfileById, params.id]);
 
   const {
     company,
@@ -235,7 +235,7 @@ const EditProfile = ({
               <div className="col-sm-3">
                 <input
                   type="submit"
-                  value="Create Profile"
+                  value="Update Profile"
                   className="btn btn-blue"
                 />
               </div>
