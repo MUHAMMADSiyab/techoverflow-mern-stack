@@ -29,6 +29,9 @@ const EditProfile = ({
 
   useEffect(() => {
     getProfileById(params.id);
+  }, [getProfileById, params.id]);
+
+  useEffect(() => {
     setFormData({
       company: profile !== null && profile.company ? profile.company : "",
       status: profile !== null && profile.status ? profile.status : "",
@@ -50,7 +53,7 @@ const EditProfile = ({
           ? profile.social.linkedin
           : ""
     });
-  }, [getProfileById, params.id]);
+  }, [profile]);
 
   const {
     company,

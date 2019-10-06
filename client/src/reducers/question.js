@@ -1,7 +1,9 @@
 import {
   GET_QUESTIONS,
   QUESTION_ADDED,
-  GET_QUESTION
+  GET_QUESTION,
+  UPVOTED,
+  DOWNVOTED
 } from "../actions/constants";
 
 const initialState = {
@@ -28,6 +30,18 @@ export default (state = initialState, action) => {
         loading: false
       };
     case QUESTION_ADDED:
+      return {
+        ...state,
+        question: payload,
+        loading: false
+      };
+    case UPVOTED:
+      return {
+        ...state,
+        question: payload,
+        loading: false
+      };
+    case DOWNVOTED:
       return {
         ...state,
         question: payload,

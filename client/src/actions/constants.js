@@ -18,4 +18,6 @@ export const PROFILE_ERROR = "PROFILE_ERROR";
 export const GET_QUESTIONS = "GET_QUESTIONS";
 export const GET_QUESTION = "GET_QUESTION";
 export const QUESTION_ADDED = "QUESTION_ADDED";
+export const UPVOTED = "UPVOTED";
+export const DOWNVOTED = "DOWNVOTED";
 export const QUESTION_ERROR = "QUESTION_ERROR";

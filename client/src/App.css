@@ -343,6 +343,40 @@ label {
   border: 1px solid var(--primary-color);
 }
 
+/* Prism */
+code[class*="language-"],
+pre[class*="language-"] {
+  text-shadow: none !important;
+}
+
+pre {
+  height: 400px;
+  box-shadow: none !important;
+}
+
+/* Single Question */
+.single-question .tags {
+  font-size: 90%;
+}
+.single-question .q-bottom {
+  font-size: 90%;
+}
+
+/* Votes */
+.votes .fas {
+  color: rgb(134, 134, 134);
+  margin-top: 15px;
+}
+.votes button,
+.votes button:focus {
+  background: transparent;
+  border: 0 !important;
+  outline: none !important;
+}
+.voted {
+  color: var(--primary-color) !important;
+}
+
 /* Mobile */
 @media only screen and (max-width: 768px) {
   .landing-head {

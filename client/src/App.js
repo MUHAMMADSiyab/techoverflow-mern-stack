@@ -18,6 +18,7 @@ import EditQuestion from "./components/question/forms/EditQuestion";
 import Question from "./components/question/Question";
 // CSS
 import "./App.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 // Actions
 import { loadUser } from "./actions/auth";
 

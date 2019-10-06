@@ -4,13 +4,10 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
 import TagsInput from "react-tagsinput";
-import Prism from "prismjs";
 import Alert from "../../alerts/Alert";
 import Sidebar from "../partials/Sidebar";
 
 // CSS
-import "prismjs/themes/prism.css";
-import "prismjs/themes/prism-twilight.css";
 import "react-tagsinput/react-tagsinput.css";
 
 // Actions
@@ -55,9 +52,6 @@ const EditQuestion = ({
   const handleTagsChange = tags => setFormData({ ...formData, tags: tags });
 
   const { title, body, tags } = formData;
-
-  // Initial Prism
-  Prism.highlightAll();
 
   return !auth.loading &&
     auth.isAuthenticated &&
