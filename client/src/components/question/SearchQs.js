@@ -7,16 +7,17 @@ import Moment from "react-moment";
 import HoverCard from "./partials/HoverCard";
 import Alert from "../alerts/Alert";
 // Actions
-import { getQuestions } from "../../actions/question";
+import { searchQuestions } from "../../actions/question";
 
-const Questions = ({
-  getQuestions,
+const SearchQs = ({
+  searchQuestions,
   question: { questions, loading },
-  auth
+  auth,
+  match: { params }
 }) => {
   useEffect(() => {
-    getQuestions();
-  }, [getQuestions, loading]);
+    searchQuestions(params.keywords);
+  }, [searchQuestions, loading, params.keywords]);
 
   const [hoverCard, toggleHoverCard] = useState("");
 
@@ -35,8 +36,7 @@ const Questions = ({
             <Spinner />
           ) : (
             <ul className="list-group">
-              {questions &&
-                questions.length > 0 &&
+              {questions && questions.length > 0 ? (
                 questions.map(question => (
                   <li className="list-group-item question" key={question._id}>
                     <h5>
@@ -77,7 +77,12 @@ const Questions = ({
                       </div>
                     </div>
                   </li>
-                ))}
+                ))
+              ) : (
+                <h6 className="text-muted">
+                  No questions found matching your search keyword
+                </h6>
+              )}
             </ul>
           )}
         </div>
@@ -86,8 +91,8 @@ const Questions = ({
   );
 };
 
-Questions.propTypes = {
-  getQuestions: PropTypes.func.isRequired
+SearchQs.propTypes = {
+  searchQuestions: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -95,4 +100,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getQuestions })(Questions);
+export default connect(mapStateToProps, { searchQuestions })(SearchQs);

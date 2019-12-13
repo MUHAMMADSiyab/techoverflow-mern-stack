@@ -37,6 +37,44 @@ body {
 .btn-wide {
   width: 40%;
 }
+.btn-xs {
+  font-size: 78%;
+}
+
+/* Email verify alert */
+.email-verify-alert {
+  width: 100%;
+  height: 40px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-left: 20px;
+  padding-top: 5px;
+  line-height: 30px;
+  background: #cf4500;
+  color: #fff;
+  font-size: 78%;
+  z-index: 9999;
+}
+.email-verify-alert a {
+  background: #9e3501;
+  color: rgb(253, 229, 229);
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 6px;
+  margin-left: 15px;
+}
+.email-verify-alert a:hover {
+  color: #fff;
+}
+/* Override */
+.btn-link-custom {
+  color: var(--primary-color) !important;
+}
+.btn-link-custom:hover {
+  color: var(--primary-dark) !important;
+}
 
 /* Mics */
 .styled-underscore {
@@ -127,10 +165,12 @@ body {
 }
 .hover-card {
   width: 140px;
+  border: 1px solid #ececec;
   position: absolute;
   bottom: 20px;
   right: -100px;
   text-align: center;
+  z-index: 9999;
 }
 .hover-card span {
   margin-top: 5px;
@@ -155,18 +195,18 @@ body {
   }
 }
 .alert {
-  font-size: 90%;
+  font-size: 93%;
   padding: 12px;
-  border: 0;
-  animation: fade 0.3s linear;
+  border-radius: 2px;
+  animation: fade 0.2s ease-in;
 }
 .alert-success {
-  background: rgb(7, 150, 7);
-  color: rgb(239, 255, 239);
+  background: rgb(193, 253, 170);
+  border: 1px solid rgb(83, 175, 64);
 }
 .alert-danger {
-  background: rgb(190, 10, 10);
-  color: rgb(255, 232, 232);
+  background: rgb(253, 170, 170);
+  border: 1px solid rgb(175, 64, 64);
 }
 .alert-default {
   background: rgb(187, 187, 187);
@@ -280,7 +320,7 @@ body {
 
 /* Navbar  */
 .navbar {
-  background: #fff;
+  background: #fbfdff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -339,7 +379,8 @@ label {
 }
 
 /* Question */
-.ask-question textarea:focus {
+.ask-question textarea:focus,
+.add-asnwer textarea:focus {
   border: 1px solid var(--primary-color);
 }
 
@@ -350,8 +391,13 @@ pre[class*="language-"] {
 }
 
 pre {
-  height: 400px;
+  height: auto;
+  max-height: 400px;
+  overflow: auto;
   box-shadow: none !important;
+  border-radius: 0 !important;
+  background: #eff0f1 !important;
+  border: 0 !important;
 }
 
 /* Single Question */
@@ -365,7 +411,7 @@ pre {
 /* Votes */
 .votes .fas {
   color: rgb(134, 134, 134);
-  margin-top: 15px;
+  padding: 10px;
 }
 .votes button,
 .votes button:focus {
@@ -375,6 +421,39 @@ pre {
 }
 .voted {
   color: var(--primary-color) !important;
+}
+.accepted {
+  color: rgb(9, 94, 9) !important;
+  text-shadow: 3px 3px 8px rgb(214, 255, 214);
+}
+
+/* comments */
+.add-comment .btn-link,
+.add-comment textarea {
+  font-size: 80%;
+}
+.add-comment textarea:focus,
+.update-comment textarea:focus {
+  border: 1px solid var(--primary-color);
+}
+.add-comment .btn-blue {
+  font-size: 85%;
+  padding: 5px;
+}
+.comments li {
+  font-size: 90%;
+  text-align: justify;
+  padding: 3px;
+}
+.comments li span {
+  font-size: 85%;
+  margin-left: 10px;
+}
+.comments .actions {
+  float: right;
+}
+.comments .actions .btn {
+  padding: 3px;
 }
 
 /* Mobile */
@@ -389,5 +468,10 @@ pre {
   .landing-buttons .btn {
     width: 100%;
     margin-bottom: 10px;
+  }
+  .card {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
   }
 }

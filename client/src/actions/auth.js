@@ -6,7 +6,9 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   AUTH_ERROR,
-  USER_LOADED
+  USER_LOADED,
+  EMAIL_VERIFICATION_ERROR,
+  EMAIL_VERIFIED
 } from "./constants";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
@@ -86,4 +88,67 @@ export const login = userData => async dispatch => {
 // Logout
 export const logout = () => dispatch => {
   dispatch({ type: LOGOUT });
+  window.location.reload();
+};
+
+// Verify email
+export const verifyEmail = (email, token) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const res = await axios.post(
+      "/api/auth/verify_email",
+      { email, authToken: token },
+      config
+    );
+
+    dispatch(setAlert(res.data, "success"));
+  } catch (err) {
+    dispatch({
+      type: EMAIL_VERIFICATION_ERROR,
+      payload: { msg: err.response.data.msg, status: err.response.status }
+    });
+
+    dispatch(setAlert(err.response.data.msg, "danger"));
+
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.map(err => dispatch(setAlert(err.msg, "danger")));
+    }
+  }
+};
+
+// Verify Email Token
+export const verifyEmailToken = emailToken => async dispatch => {
+  const config = {
+    headers: {
+      "x-auth-token": localStorage.token,
+      "Content-Type": "application/json"
+    }
+  };
+  try {
+    const res = await axios.post(
+      "/api/auth/verify_email_token",
+      { emailToken },
+      config
+    );
+
+    dispatch({
+      type: EMAIL_VERIFIED,
+      payload: res.data
+    });
+
+    dispatch(setAlert("Email has been verified successfully", "success"));
+  } catch (err) {
+    dispatch({
+      type: EMAIL_VERIFICATION_ERROR,
+      payload: { msg: err.response.data.msg, status: err.response.status }
+    });
+
+    dispatch(setAlert(err.response.data.msg, "danger"));
+  }
 };

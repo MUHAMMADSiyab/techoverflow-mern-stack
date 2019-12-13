@@ -6,14 +6,17 @@ import {
   USER_LOADED,
   LOGOUT,
   AUTH_ERROR,
-  ACCOUNT_DELETED
+  ACCOUNT_DELETED,
+  EMAIL_VERIFICATION_ERROR,
+  EMAIL_VERIFIED
 } from "../actions/constants";
 
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: false,
   loading: true,
-  user: null
+  user: null,
+  emailVerficationError: null
 };
 
 export default (state = initialState, action) => {
@@ -49,6 +52,16 @@ export default (state = initialState, action) => {
         isAuthenticated: false,
         loading: false,
         user: null
+      };
+    case EMAIL_VERIFICATION_ERROR:
+      return {
+        ...state,
+        emailVerficationError: payload
+      };
+    case EMAIL_VERIFIED:
+      return {
+        ...state,
+        user: payload
       };
     default:
       return state;

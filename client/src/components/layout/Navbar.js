@@ -1,11 +1,27 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 // Actions
 import { logout } from "../../actions/auth";
 
-const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
+const Navbar = ({
+  logout,
+  auth: { isAuthenticated, loading, user },
+  history
+}) => {
+  const [keywords, setKeywords] = useState("");
+
+  const onChange = e => setKeywords(e.target.value);
+
+  const onSubmit = e => {
+    e.preventDefault();
+
+    if (!keywords) return;
+
+    history.push(`/questions/search/${keywords}`);
+  };
+
   const GuestLinks = () => (
     <Fragment>
       <li className="nav-item">
@@ -52,7 +68,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
     );
 
   return (
-    <nav className="navbar navbar-expand-md navbar-light">
+    <nav className="navbar navbar-expand-md navbar-light sticky-top">
       <Link className="navbar-brand" to="/">
         {"{"} tech<strong>overflow</strong> {"}"}
       </Link>
@@ -79,6 +95,22 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
             </Link>
           </li>
         </ul>
+
+        <form
+          className="w-50 d-inline mx-2 my-auto"
+          onSubmit={e => onSubmit(e)}
+        >
+          <input
+            type="search"
+            name="keywords"
+            className="form-control"
+            placeholder="Search questions"
+            value={keywords}
+            onChange={e => onChange(e)}
+            style={{ fontSize: "85%", borderRadius: "2px" }}
+          />
+        </form>
+
         <ul className="navbar-nav ml-auto">
           {isAuthenticated && !loading ? <UserLinks /> : <GuestLinks />}
         </ul>
@@ -96,7 +128,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { logout }
-)(Navbar);
+export default connect(mapStateToProps, { logout })(withRouter(Navbar));

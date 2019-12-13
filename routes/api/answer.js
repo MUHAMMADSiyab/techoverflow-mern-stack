@@ -109,11 +109,11 @@ router.put("/:answer_id/accept", auth, async (req, res) => {
   try {
     const answer = await Answer.findById(req.params.answer_id);
 
-    if (!answer) return res.status(401).json({ msg: "Answer not found" });
+    if (!answer) return res.status(404).json({ msg: "Answer not found" });
 
     // Make sure the answer is not being accepted by the one who posted it
     if (answer.user.toString() === req.user.id)
-      return res.status(401).json({ msg: "Unauthorized" });
+      return res.status(401).json({ msg: "You cannot accept your own answer" });
 
     // Check if the user who's accepting the answer is the one who posted the question
     const question_id = answer.question_id;
@@ -188,6 +188,11 @@ router.put("/:answer_id/upvote", auth, async (req, res) => {
   try {
     const answer = await Answer.findById(req.params.answer_id);
 
+    // Check if the OP is trying to perform this action
+    if (answer.user.toString() === req.user.id) {
+      return res.status(401).json({ msg: "You cannot upvote your own answer" });
+    }
+
     // Check if it's downvoted already
     if (
       answer.downvotes.filter(dv => dv.user.toString() === req.user.id).length >
@@ -226,6 +231,11 @@ router.put("/:answer_id/upvote", auth, async (req, res) => {
 router.put("/:answer_id/downvote", auth, async (req, res) => {
   try {
     const answer = await Answer.findById(req.params.answer_id);
+
+    // Check if the OP is trying to perform this action
+    if (answer.user.toString() === req.user.id) {
+      return res.status(401).json({ msg: "You cannot upvote your own answer" });
+    }
 
     // Check if it's upvoted already
     if (
@@ -291,7 +301,7 @@ router.post(
         user: user.id
       };
 
-      answer.comments.unshift(commentData);
+      answer.comments.push(commentData);
 
       await answer.save();
 
@@ -329,8 +339,9 @@ router.put(
     try {
       let answer = await Answer.findOneAndUpdate(
         {
-          "comments._id": req.params.comment_id,
-          "comments.user": req.user.id
+          comments: {
+            $elemMatch: { _id: req.params.comment_id, user: req.user.id }
+          }
         },
         { $set: { "comments.$.text": req.body.text } },
         { new: true }
@@ -340,7 +351,7 @@ router.put(
     } catch (err) {
       console.log(err.message);
       if (err.kind == "ObjectId")
-        return res.status(404).json({ msg: "No answer found" });
+        return res.status(404).json({ msg: "No comment found" });
       res.status(500).send("Server Error");
     }
   }
@@ -365,7 +376,7 @@ router.delete("/comment/:comment_id", auth, async (req, res) => {
   } catch (err) {
     console.log(err.message);
     if (err.kind == "ObjectId")
-      return res.status(404).json({ msg: "No answer found" });
+      return res.status(404).json({ msg: "No comment found" });
     res.status(500).send("Server Error");
   }
 });
@@ -382,7 +393,7 @@ router.delete("/:answer_id", auth, async (req, res) => {
       user: req.user.id
     });
 
-    res.send("Answer deleted");
+    res.send(req.params.answer_id);
   } catch (err) {
     console.log(err.message);
     if (err.kind == "ObjectId")

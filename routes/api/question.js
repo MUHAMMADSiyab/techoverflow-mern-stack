@@ -131,6 +131,26 @@ router.get("/", async (req, res) => {
 });
 
 /**
+ * @route   /api/question/:keywords
+ * @type    GET
+ * @desc    Search questions
+ */
+router.get("/search/:keywords", async (req, res) => {
+  try {
+    const keywords = new RegExp(req.params.keywords, "gi");
+
+    const questions = await Question.find({ title: { $regex: keywords } });
+
+    res.json(questions);
+  } catch (err) {
+    console.log(err.message);
+    if (err.kind == "ObjectId")
+      return res.status(404).json({ msg: "No question found" });
+    res.status(500).send("Server Error");
+  }
+});
+
+/**
  * @route   /api/question/:question_id
  * @type    GET
  * @desc    Get question by ID
@@ -158,6 +178,13 @@ router.get("/:question_id", async (req, res) => {
 router.put("/:question_id/upvote", auth, async (req, res) => {
   try {
     const question = await Question.findById(req.params.question_id);
+
+    // Check if the OP is trying to perform this action
+    if (question.user.toString() === req.user.id) {
+      return res
+        .status(401)
+        .json({ msg: "You cannot upvote your own question" });
+    }
 
     // Check if it's downvoted already
     if (
@@ -198,6 +225,13 @@ router.put("/:question_id/upvote", auth, async (req, res) => {
 router.put("/:question_id/downvote", auth, async (req, res) => {
   try {
     const question = await Question.findById(req.params.question_id);
+
+    // Check if the OP is trying to perform this action
+    if (question.user.toString() === req.user.id) {
+      return res
+        .status(401)
+        .json({ msg: "You cannot downvote your own question" });
+    }
 
     // Check if it's upvoted already
     if (
@@ -264,11 +298,11 @@ router.post(
         user: user.id
       };
 
-      question.comments.unshift(commentData);
+      question.comments.push(commentData);
 
       await question.save();
 
-      res.json(question);
+      res.json(question.comments);
     } catch (err) {
       console.log(err.message);
       if (err.kind == "ObjectId")
@@ -302,18 +336,19 @@ router.put(
     try {
       let question = await Question.findOneAndUpdate(
         {
-          "comments._id": req.params.comment_id,
-          "comments.user": req.user.id
+          comments: {
+            $elemMatch: { _id: req.params.comment_id, user: req.user.id }
+          }
         },
         { $set: { "comments.$.text": req.body.text } },
         { new: true }
       );
 
-      res.json(question);
+      res.json(question.comments);
     } catch (err) {
       console.log(err.message);
       if (err.kind == "ObjectId")
-        return res.status(404).json({ msg: "No question found" });
+        return res.status(404).json({ msg: "No comment found" });
       res.status(500).send("Server Error");
     }
   }
@@ -327,14 +362,31 @@ router.put(
 router.delete("/comment/:comment_id", auth, async (req, res) => {
   try {
     const question = await Question.findOneAndUpdate(
-      { _id: req.params.question_id },
+      { comments: { $elemMatch: { _id: req.params.comment_id } } },
       {
         $pull: { comments: { _id: req.params.comment_id, user: req.user.id } }
       },
       { new: true }
     );
 
-    res.json(question);
+    res.json(question.comments);
+  } catch (err) {
+    console.log(err.message);
+    if (err.kind == "ObjectId")
+      return res.status(404).json({ msg: "No comment found" });
+    res.status(500).send("Server Error");
+  }
+});
+
+/**
+ * @route    /api/question/answers
+ * @type     GET
+ * @desc     Get all answers for this question
+ */
+router.get("/:question_id/answers", async (req, res) => {
+  try {
+    const answers = await Answer.find({ question_id: req.params.question_id });
+    res.json(answers);
   } catch (err) {
     console.log(err.message);
     if (err.kind == "ObjectId")

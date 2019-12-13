@@ -16,6 +16,11 @@ import EditProfile from "./components/profile/forms/EditProfile";
 import AskQuestion from "./components/question/forms/AskQuestion";
 import EditQuestion from "./components/question/forms/EditQuestion";
 import Question from "./components/question/Question";
+import EditAnswer from "./components/answer/forms/EditAnswer";
+import EmailVerified from "./components/auth/EmailVerified";
+import VerifyEmail from "./components/auth/VerifyEmail";
+import VerifyEmailToken from "./components/auth/VerifyEmailToken";
+import SearchQs from "./components/question/SearchQs";
 // CSS
 import "./App.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -32,6 +37,7 @@ const App = () => {
       <Router>
         <Fragment>
           <Navbar />
+          <EmailVerified />
           <Switch>
             <Route exact path="/" component={Landing} />
             <Route exact path="/signup" component={Signup} />
@@ -48,10 +54,11 @@ const App = () => {
               path="/edit-profile/:id"
               component={EditProfile}
             />
+            <Route exact path="/questions" component={Questions} />
             <Route
               exact
-              path="/questions"
-              render={props => <Questions {...props} />}
+              path="/questions/search/:keywords"
+              component={SearchQs}
             />
             <ProtectedRoute
               exact
@@ -64,6 +71,21 @@ const App = () => {
               component={EditQuestion}
             />
             <Route exact path="/questions/:id" component={Question} />
+            <ProtectedRoute
+              exact
+              path="/edit-answer/:id"
+              component={EditAnswer}
+            />
+            <ProtectedRoute
+              exact
+              path="/verify-email"
+              component={VerifyEmail}
+            />
+            <ProtectedRoute
+              exact
+              path="/verify_email_token/:token"
+              component={VerifyEmailToken}
+            />
           </Switch>
         </Fragment>
       </Router>
