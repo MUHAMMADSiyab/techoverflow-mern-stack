@@ -24,7 +24,7 @@ import "prismjs/components/prism-css";
 import "prismjs/components/prism-matlab";
 import "prismjs/components/prism-http";
 // CSS
-import "prismjs/themes/prism-ghcolors.css";
+import "../question/prism-ghcolors.css";
 // Actions
 import {
   upvote,
