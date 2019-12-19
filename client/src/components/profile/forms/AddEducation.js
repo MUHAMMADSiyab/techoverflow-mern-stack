@@ -38,7 +38,7 @@ const AddEducation = ({ addEducation }) => {
   return (
     <div className="row add-container">
       <div className="col-sm-8">
-        <form onSubmit={e => onSubmit(e)}>
+        <form onSubmit={e => onSubmit(e)} id="add-edu">
           <div className="row mt-2">
             <label
               htmlFor="title"
@@ -190,7 +190,4 @@ AddEducation.propTypes = {
   addEducation: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  { addEducation }
-)(AddEducation);
+export default connect(null, { addEducation })(AddEducation);

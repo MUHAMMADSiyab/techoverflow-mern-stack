@@ -68,9 +68,9 @@ const Navbar = ({
     );
 
   return (
-    <nav className="navbar navbar-expand-md navbar-light sticky-top">
+    <nav className="navbar navbar-expand-md navbar-light">
       <Link className="navbar-brand" to="/">
-        {"{"} tech<strong>overflow</strong> {"}"}
+        <i className="fas fa-code"></i> tech<strong>overflow</strong>
       </Link>
 
       <button

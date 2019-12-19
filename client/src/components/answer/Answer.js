@@ -50,7 +50,20 @@ const Answer = ({
   const [hoverCard, toggleHoverCard] = useState("");
 
   return (
-    <div className="row mb-5" id={answer._id}>
+    <div
+      className="row mb-5"
+      style={
+        answer.accepted
+          ? {
+              background: "rgb(209, 255, 220)",
+              transition: "all .5s linear",
+              boxSizing: "border-box",
+              padding: "20px"
+            }
+          : {}
+      }
+      id={answer._id}
+    >
       <div className="col-sm-1 text-right text-muted">
         <div className="votes mt-2">
           {/* Upvote */}
@@ -87,6 +100,7 @@ const Answer = ({
                 : "Mark this answer as Accepted"
             }
             onClick={() => acceptAnswer(answer._id, key)}
+            id="accept-button"
           >
             {answer.accepted ? (
               <i className="fas fa-check fa-lg accepted" />
@@ -165,7 +179,9 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { upvote, downvote, acceptAnswer, deleteAnswer }
-)(Answer);
+export default connect(mapStateToProps, {
+  upvote,
+  downvote,
+  acceptAnswer,
+  deleteAnswer
+})(Answer);

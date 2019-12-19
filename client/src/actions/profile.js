@@ -153,6 +153,8 @@ export const addExperience = formData => async dispatch => {
       payload: res.data
     });
 
+    document.getElementById("add-exp").style.display = "none";
+
     dispatch(setAlert("Profile updated", "success"));
   } catch (err) {
     dispatch({
@@ -237,6 +239,8 @@ export const addEducation = formData => async dispatch => {
       type: UPDATE_PROFILE,
       payload: res.data
     });
+
+    document.getElementById("add-edu").style.display = "none";
 
     dispatch(setAlert("Profile updated", "success"));
   } catch (err) {

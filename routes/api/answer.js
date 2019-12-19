@@ -126,12 +126,21 @@ router.put("/:answer_id/accept", auth, async (req, res) => {
           "You cannot accept this answer because you didn't post this question"
       });
 
-    // Check if it's already accepted
-    if (answer.accepted === true) {
-      answer.accepted = false;
-    } else {
-      answer.accepted = true;
-    }
+    // Mark answer as accepted, or unaccepted if accepted already
+    answer.accepted = !answer.accepted;
+
+    const answers = await Answer.find({ question_id });
+
+    const already_accepted = answers.filter(
+      answer =>
+        answer.accepted === true &&
+        answer._id.toString() !== req.params.answer_id
+    );
+
+    if (already_accepted.length > 0)
+      return res.status(401).json({
+        msg: "One of the answers is already marked as accepted"
+      });
 
     await answer.save();
 

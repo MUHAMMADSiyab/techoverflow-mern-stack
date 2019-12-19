@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 // Actions
 import { deleteAccount } from "../../../actions/profile";
+import ChangePassword from "./ChangePassword";
 
 const Settings = ({ deleteAccount }) => (
   <Fragment>
-    <h4 className="mt-4">Settings</h4>
+    <h6 className="text-muted mt-4 mb-4">Settings</h6>
     <div className="card no-shadow mt-2 mb-5">
       <div className="card-body">
         <ul className="nav nav-tabs">
@@ -24,10 +25,14 @@ const Settings = ({ deleteAccount }) => (
 
         <div className="tab-content">
           <div className="tab-pane container active" id="pi">
-            Personal Info
+            <div className="row mt-4">
+              <div className="col-sm-5">
+                <ChangePassword />
+              </div>
+            </div>
           </div>
           <div className="tab-pane container fade" id="account">
-            <p className="mt-2">Permamantly delete your account</p>
+            <p className="mt-4">Permamantly delete your account</p>
             <button
               className="btn btn-sm btn-danger"
               onClick={e => deleteAccount()}
@@ -37,7 +42,7 @@ const Settings = ({ deleteAccount }) => (
             <div className="mt-4 alert alert-warning">
               <strong>Notice:</strong> After deleting your account, you'll not
               be able to recover it. Be safe to go for this action. This action
-              could not be done.
+              could not be undone.
             </div>
           </div>
         </div>
@@ -50,7 +55,4 @@ Settings.propTypes = {
   deleteAccount: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  { deleteAccount }
-)(Settings);
+export default connect(null, { deleteAccount })(Settings);

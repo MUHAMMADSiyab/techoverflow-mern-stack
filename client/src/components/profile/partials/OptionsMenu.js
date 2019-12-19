@@ -5,10 +5,14 @@ const OptionsMenu = ({ deleteFunc, id, form, toggleForm }) => (
   <div className="row">
     <div className="col-sm-2 ml-auto">
       <div className="dropdown">
-        <button className="btn menu-btn" data-toggle="dropdown" id="menu-dd">
+        <button
+          className="btn menu-btn"
+          data-toggle="dropdown"
+          id={`menu-dd${id}`}
+        >
           <i className="fas fa-ellipsis-h" />
         </button>
-        <ul className="dropdown-menu" data-target="#menu-dd">
+        <ul className="dropdown-menu" data-target={`#menu-dd${id}`}>
           <li className="nav-item">
             <a
               className="nav-link"

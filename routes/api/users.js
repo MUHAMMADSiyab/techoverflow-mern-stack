@@ -157,4 +157,60 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+/**
+ * @route   /api/users/change_password
+ * @type    PUT
+ * @desc    Change user password
+ */
+router.put(
+  "/change_password",
+  [
+    auth,
+    [
+      check("cur_pass", "The current password field is required")
+        .not()
+        .isEmpty(),
+      check("new_pass", "The new password field is required")
+        .not()
+        .isEmpty(),
+      check(
+        "new_pass",
+        "The password must be at least 6 characters in length"
+      ).isLength({ min: 6 })
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    // Validation errors
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
+
+    const { cur_pass, new_pass } = req.body;
+
+    try {
+      // Check current password first
+      const user = await User.findById(req.user.id).select("password");
+
+      matched_password = await bcrypt.compare(cur_pass, user.password);
+
+      if (!matched_password)
+        return res
+          .status(401)
+          .json({ msg: "You entered an incorrect password" });
+
+      // Change the password
+      const salt = await bcrypt.genSalt();
+      user.password = await bcrypt.hash(new_pass, salt);
+
+      await user.save();
+
+      return res.status(200).send("Password changed successfully");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Server Error");
+    }
+  }
+);
+
 module.exports = router;

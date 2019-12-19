@@ -152,3 +152,35 @@ export const verifyEmailToken = emailToken => async dispatch => {
     dispatch(setAlert(err.response.data.msg, "danger"));
   }
 };
+
+// Change password
+export const changePassword = formData => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+
+    const res = await axios.put("/api/users/change_password", formData, config);
+
+    document.getElementId("password-form").style.display = "none";
+
+    dispatch(setAlert(res.data, "success"));  
+  } catch (err) {
+    if (err.response) {
+      const errors = err.response.data.errors;
+
+      if (errors) {
+        errors.map(err => dispatch(setAlert(err.msg, "danger")));
+      }
+
+      // If not logged in
+      if (err.response.status === 401) {
+        dispatch(setAlert(err.response.data.msg, "danger"));
+      }
+    }
+
+    dispatch({ type: AUTH_ERROR });
+  }
+};

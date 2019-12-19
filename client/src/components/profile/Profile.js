@@ -80,7 +80,7 @@ const Profile = ({
               <About profile={profile} />
               <div className="card no-shadow mb-2">
                 <div className="card-body">
-                  <h5>Professional Experience</h5>
+                  <h6>Professional Experience</h6>
                   <ul className="list-group">
                     {profile.experience.length > 0 &&
                       profile.experience.map(experience => (
@@ -109,7 +109,7 @@ const Profile = ({
 
               <div className="card no-shadow mb-2">
                 <div className="card-body">
-                  <h5>Education</h5>
+                  <h6>Education</h6>
                   <ul className="list-group">
                     {profile.education.length > 0 &&
                       profile.education.map(education => (
@@ -136,7 +136,9 @@ const Profile = ({
                 </div>
               </div>
 
-              <Settings />
+              {!auth.loading &&
+                auth.isAuthenticated &&
+                auth.user._id === user._id && <Settings />}
             </div>
           </Fragment>
         )}
@@ -157,7 +159,6 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(
-  mapStateToProps,
-  { getProfileById, getUserById }
-)(Profile);
+export default connect(mapStateToProps, { getProfileById, getUserById })(
+  Profile
+);

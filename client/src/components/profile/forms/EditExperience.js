@@ -46,7 +46,7 @@ const EditExperience = ({ editExperience, experience }) => {
   return (
     <div className="row add-container">
       <div className="col-sm-8">
-        <form onSubmit={e => onSubmit(e)}>
+        <form onSubmit={e => onSubmit(e)} id="edit-exp">
           <div className="row mt-2">
             <label
               htmlFor="title"
@@ -199,7 +199,4 @@ EditExperience.propTypes = {
   experience: PropTypes.object.isRequired
 };
 
-export default connect(
-  null,
-  { editExperience }
-)(EditExperience);
+export default connect(null, { editExperience })(EditExperience);

@@ -54,7 +54,7 @@ const EditEducation = ({ editEducation, education }) => {
   return (
     <div className="row add-container">
       <div className="col-sm-8">
-        <form onSubmit={e => onSubmit(e)}>
+        <form onSubmit={e => onSubmit(e)} id="edit-edu">
           <div className="row mt-2">
             <label
               htmlFor="school"
@@ -145,7 +145,7 @@ const EditEducation = ({ editEducation, education }) => {
                     toggleDisabled(!toDateDisabled);
                   }}
                 />{" "}
-                Current job
+                Currently Studying
               </label>
             </div>
           </div>
@@ -207,7 +207,4 @@ EditEducation.propTypes = {
   education: PropTypes.object.isRequired
 };
 
-export default connect(
-  null,
-  { editEducation }
-)(EditEducation);
+export default connect(null, { editEducation })(EditEducation);

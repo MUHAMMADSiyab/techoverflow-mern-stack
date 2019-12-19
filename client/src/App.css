@@ -41,6 +41,14 @@ body {
   font-size: 78%;
 }
 
+.btn-sm {
+  font-size: 0.875rem !important;
+}
+
+#accept-button .fas {
+  font-size: 1.6rem;
+}
+
 /* Email verify alert */
 .email-verify-alert {
   width: 100%;
@@ -423,8 +431,9 @@ pre {
   color: var(--primary-color) !important;
 }
 .accepted {
-  color: rgb(9, 94, 9) !important;
-  text-shadow: 3px 3px 8px rgb(214, 255, 214);
+  color: rgb(4, 122, 4) !important ;
+  text-shadow: 3px 0px 8px rgb(206, 206, 206);
+  transition: all 0.5s cubic-bezier(0.47, 0, 0.745, 0.715);
 }
 
 /* comments */
@@ -454,6 +463,14 @@ pre {
 }
 .comments .actions .btn {
   padding: 3px;
+}
+
+#add-edu .form-control,
+#edit-edu .form-control,
+#add-exp .form-control,
+#edit-exp .form-control {
+  font-size: 95%;
+  color: #000;
 }
 
 /* Mobile */

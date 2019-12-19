@@ -48,7 +48,4 @@ const mapStateToProps = state => ({
   answer: state.answer
 });
 
-export default connect(
-  mapStateToProps,
-  { getAnswers }
-)(Answers);
+export default connect(mapStateToProps, { getAnswers })(Answers);
