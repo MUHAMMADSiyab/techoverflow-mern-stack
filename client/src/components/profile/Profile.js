@@ -33,7 +33,7 @@ const Profile = ({
   return (
     <div className="container mt-5">
       <div className="row">
-        {loading ? (
+        {auth.loading || loading ? (
           <Spinner />
         ) : !loading && profile === null ? (
           <div className="col-sm-8">
