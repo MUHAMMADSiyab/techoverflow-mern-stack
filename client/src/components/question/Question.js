@@ -28,7 +28,7 @@ import "prismjs/components/prism-css";
 import "prismjs/components/prism-matlab";
 import "prismjs/components/prism-http";
 // CSS
-import "prismjs/themes/prism-ghcolors.css";
+import "../../../node_modules/prismjs/themes/prism-ghcolors.css";
 // Actions
 import {
   getQuestionById,
