@@ -88,7 +88,6 @@ const App = () => {
               component={VerifyEmailToken}
             />
           </Switch>
-          <Footer />
         </Fragment>
       </Router>
     </Provider>

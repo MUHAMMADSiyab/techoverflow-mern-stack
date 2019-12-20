@@ -28,7 +28,6 @@ const ChangePassword = ({ changePassword, history }) => {
     if (new_pass !== conf_pass)
       return store.dispatch(setAlert("Passwords do not match", "danger"));
 
-    // Todo action..
     changePassword(formData, history);
   };
 
