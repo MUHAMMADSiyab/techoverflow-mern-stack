@@ -154,7 +154,7 @@ export const verifyEmailToken = emailToken => async dispatch => {
 };
 
 // Change password
-export const changePassword = formData => async dispatch => {
+export const changePassword = (formData, history) => async dispatch => {
   try {
     const config = {
       headers: {
@@ -166,7 +166,9 @@ export const changePassword = formData => async dispatch => {
 
     document.getElementId("password-form").style.display = "none";
 
-    dispatch(setAlert(res.data, "success"));  
+    history.push("login");
+
+    dispatch(setAlert(res.data, "success"));
   } catch (err) {
     if (err.response) {
       const errors = err.response.data.errors;

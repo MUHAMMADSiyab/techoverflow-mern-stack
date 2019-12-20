@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import ChangePassword from "./ChangePassword";
 // Actions
 import { deleteAccount } from "../../../actions/profile";
-import ChangePassword from "./ChangePassword";
 
-const Settings = ({ deleteAccount }) => (
+const Settings = ({ deleteAccount, history }) => (
   <Fragment>
     <h6 className="text-muted mt-4 mb-4">Settings</h6>
     <div className="card no-shadow mt-2 mb-5">
@@ -27,7 +27,7 @@ const Settings = ({ deleteAccount }) => (
           <div className="tab-pane container active" id="pi">
             <div className="row mt-4">
               <div className="col-sm-5">
-                <ChangePassword />
+                <ChangePassword history={history} />
               </div>
             </div>
           </div>

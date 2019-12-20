@@ -21,6 +21,7 @@ import EmailVerified from "./components/auth/EmailVerified";
 import VerifyEmail from "./components/auth/VerifyEmail";
 import VerifyEmailToken from "./components/auth/VerifyEmailToken";
 import SearchQs from "./components/question/SearchQs";
+import Footer from "./components/layout/Footer";
 // CSS
 import "./App.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -87,6 +88,7 @@ const App = () => {
               component={VerifyEmailToken}
             />
           </Switch>
+          <Footer />
         </Fragment>
       </Router>
     </Provider>

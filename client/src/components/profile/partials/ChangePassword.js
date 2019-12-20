@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import store from "../../../store";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 // Actions
 import { setAlert } from "../../../actions/alert";
 import { changePassword } from "../../../actions/auth";
 
-const ChangePassword = ({ changePassword }) => {
+const ChangePassword = ({ changePassword, history }) => {
   const [passForm, togglePassForm] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -28,7 +29,7 @@ const ChangePassword = ({ changePassword }) => {
       return store.dispatch(setAlert("Passwords do not match", "danger"));
 
     // Todo action..
-    changePassword(formData);
+    changePassword(formData, history);
   };
 
   return (
@@ -92,4 +93,4 @@ ChangePassword.propTypes = {
   changePassword: PropTypes.func.isRequired
 };
 
-export default connect(null, { changePassword })(ChangePassword);
+export default connect(null, { changePassword })(withRouter(ChangePassword));

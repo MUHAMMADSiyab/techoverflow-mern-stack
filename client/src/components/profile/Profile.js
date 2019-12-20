@@ -20,7 +20,8 @@ const Profile = ({
   getUserById,
   match: { params },
   profile: { profile, loading, user },
-  auth
+  auth,
+  history
 }) => {
   useEffect(() => {
     getProfileById(params.id);
@@ -35,7 +36,7 @@ const Profile = ({
       <div className="row">
         {auth.loading || loading ? (
           <Spinner />
-        ) : !loading && profile === null ? (
+        ) : !loading && !auth.loading && profile === null ? (
           <div className="col-sm-8">
             {user !== null ? (
               <Fragment>
@@ -138,7 +139,7 @@ const Profile = ({
 
               {!auth.loading &&
                 auth.isAuthenticated &&
-                auth.user._id === user._id && <Settings />}
+                auth.user._id === user._id && <Settings history={history} />}
             </div>
           </Fragment>
         )}
