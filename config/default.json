@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://siyabdev:PHPlover007@techoverflow-qn9wl.mongodb.net/test?retryWrites=true&w=majority",
-  "jwtSecret": "3g5z4SAtQW"
+  "mongoURI": "mongodbUri",
+  "jwtSecret": "jwtSecret"
 }
